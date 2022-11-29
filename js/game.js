@@ -21,7 +21,11 @@ const TEST_PATTERN = /^[a-z]{1}$/i;
 document.getElementById("startButton").onclick = function() {
     randomWord();
     console.log(answer);
-    userInput = prompt("You have started the game!\n\nEnter a letter.");
+    displayGuesses();
+
+    userInput = prompt("You have started the game!\n\nEnter a letter.\n" 
+    + answerLetters.join(" ") + "\n"
+    );
     
     if(userInput.match(TEST_PATTERN)) {
         testGuess(answer);
@@ -42,6 +46,13 @@ function doesItContain() {
     }
 }
 
+function displayGuesses() {
+    for (let i = 0; i < answer.length; i++) {
+        answerLetters[i] = "_";
+    }
+}
+
+
 
 function testGuess() {
     if(Array.isArray(answerLetters)) {
@@ -60,12 +71,14 @@ function testGuess() {
 
 //where all the functions are connected???
 function gameLoop() {
-    let randomWord = randomWord();
+    /*let randomWord = randomWord();
     let userInput = prompt("Enter a letter");
 
     while (false) {
 
-    }
+    }*/
+
+
 
 
 }
