@@ -35,7 +35,6 @@ let answer = "";
 let answerLetters = [];
 let userInput = "";
 let userGuessed = [];
-let remainingLetters = answer.length;
 let maxWrong = answer.length + 2;
 const TEST_PATTERN = /^[a-z]{1}$/i;
 
@@ -44,13 +43,18 @@ let startGame = document.getElementById("startButton").addEventListener("click",
 function gameFunction() {
     randomWord();
     displayGuesses();
+    let remainingLetters = answer.length;
 
     userInput = prompt("\nYou have started the game!\n\nEnter a letter.\n" + answerLetters.join(" ") + "\n");
 
-    if (userInput.match(TEST_PATTERN)) {
-        testGuess(answer);
-    } else {
-        alert("\nEnter only one letter");
+    while (remainingLetters > 0) {
+        if (userInput.match(TEST_PATTERN)) {
+            testGuess(answer);
+        } else {
+            alert("\nEnter only one letter");
+            break;
+        }
+
     }
 }
 
@@ -72,10 +76,17 @@ function testGuess() {
     }
 }
 
+
+//loop with function for userinput after initial one + testing for the input to the answer
 function doesItContain() {
     if (answer.toLocaleLowerCase().includes(userInput)) {
+        //push userinput to array (answer array?)
+        //change remaining letters (decrement?)
+        //let user guess again
         alert("it does contain " + userInput);
     } else {
+        //minus one on maxwrong
+        //let user guess again 
         alert("nope")
     }
 }
