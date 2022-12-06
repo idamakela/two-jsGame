@@ -14,6 +14,8 @@
         i. test weather it has already been inputted
     c. test weather user only inputs one letter
     d. test weather answer does or does not inclued user guess
+10. won message + logic
+11. lost message + logic
 
 */
 
@@ -35,7 +37,6 @@ let answer = "";
 let answerLetters = [];
 let userInput = "";
 let userGuessed = [];
-let maxWrong = answer.length + 2;
 const TEST_PATTERN = /^[a-z]{1}$/i;
 
 let startGame = document.getElementById("startButton").addEventListener("click", gameFunction);
@@ -43,19 +44,24 @@ let startGame = document.getElementById("startButton").addEventListener("click",
 function gameFunction() {
     randomWord();
     displayGuesses();
-    let remainingLetters = answer.length;
+    remainingLetters = answer.length;
+    maxWrong = answer.length + 2;
+    console.log(answer);
 
     userInput = prompt("\nYou have started the game!\n\nEnter a letter.\n" + answerLetters.join(" ") + "\n");
-
+    
     while (remainingLetters > 0) {
         if (userInput.match(TEST_PATTERN)) {
             testGuess(answer);
         } else {
             alert("\nEnter only one letter");
             break;
+            //this does not work 
         }
 
     }
+
+    //last (win?) message
 }
 
 function randomWord() {
@@ -68,9 +74,27 @@ function displayGuesses() {
     }
 }
 
+
+//error on remaining letters if correct inout
+//error att maxWrong, display incorrects 
 function testGuess() {
     if (Array.isArray(answerLetters)) {
-        answerLetters.forEach(doesItContain);
+        answerLetters.forEach(function() {
+            if (answer.toLocaleLowerCase().includes(userInput)) {
+                for( let j = 0; j < answer.length; j++) {
+                    if (answer[j] === userInput) {
+                        answerLetters[j] = userInput;
+                        remainingLetters--;
+                    }
+                }
+                userGuessed.push(userInput);
+                userInput = prompt("\nEnter another letter.\nYou have " + maxWrong + " lives left\n" + answerLetters.join(" ") + "\n");
+            } else {
+                userGuessed.push(userInput);
+                maxWrong--;
+                userInput = prompt("\nEnter another letter.\nYou have " + maxWrong + " lives left\n"+ answerLetters.join(" ") + "\n");
+            }
+        });
     } else {
         alert("Broken game");
     }
@@ -78,16 +102,17 @@ function testGuess() {
 
 
 //loop with function for userinput after initial one + testing for the input to the answer
+//ERROR when this is run in the foreach above 
 function doesItContain() {
     if (answer.toLocaleLowerCase().includes(userInput)) {
-        //push userinput to array (answer array?)
-        //change remaining letters (decrement?)
-        //let user guess again
-        alert("it does contain " + userInput);
+        answerLetters.push(userInput);
+        userGuessed.push(userInput);
+        remainingLetters--;
+        userInput = prompt("\nEnter another letter.\nYou have " + maxWrong + " lives left\n" + answerLetters.join(" ") + "\n");
     } else {
-        //minus one on maxwrong
-        //let user guess again 
-        alert("nope")
+        userGuessed.push(userInput);
+        maxWrong--;
+        userInput = prompt("\nEnter another letter.\nYou have " + maxWrong + " lives left\n"+ answerLetters.join(" ") + "\n");
     }
 }
 
