@@ -53,6 +53,10 @@ function gameFunction() {
     while (remainingLetters > 0) {
         if (userInput.match(TEST_PATTERN)) {
             testGuess(answer);
+            if(maxWrong === 0) {
+                alert("\nYou unfortunatley lost the game\n\nThe answer was: " + answer);
+                break;
+            }
         } else {
             alert("\nEnter only one letter");
             break;
@@ -60,8 +64,6 @@ function gameFunction() {
         }
 
     }
-
-    //last (win?) message
 }
 
 function randomWord() {
@@ -74,25 +76,37 @@ function displayGuesses() {
     }
 }
 
-
-//error on remaining letters if correct inout
-//error att maxWrong, display incorrects 
+//error: doesnt break correctly after the last letter is inputted, and shows a last prompt 
+//error: need to press enter an extra time after the game is lost
+//error: dosent read letters guessed more than once 
 function testGuess() {
     if (Array.isArray(answerLetters)) {
         answerLetters.forEach(function() {
             if (answer.toLocaleLowerCase().includes(userInput)) {
-                for( let j = 0; j < answer.length; j++) {
-                    if (answer[j] === userInput) {
-                        answerLetters[j] = userInput;
-                        remainingLetters--;
+                //while(remainingLetters > 0) {
+                    for( let j = 0; j < answer.length; j++) {
+                        if (answer[j] === userInput) {
+                            answerLetters[j] = userInput;
+                            remainingLetters--;
+                            if (remainingLetters === 0) {
+                                alert("\nCongratulations!\n\nYou have won the game!\n\nThe answer was: " + answer);
+                                break;
+                            }
+                        }
+                    }
+                    userGuessed.push(userInput);
+                    userInput = prompt("\nEnter another letter.\n\nYou have " + maxWrong + " lives left\n\n" + answerLetters.join(" ") + "\n");
+                //}
+            } else {
+                while(maxWrong > 0) {
+                    userGuessed.push(userInput);
+                    maxWrong--;
+                    userInput = prompt("\nEnter another letter.\n\nYou have " + maxWrong + " lives left\n\n"+ answerLetters.join(" ") + "\n");
+                    if (maxWrong === 0) {
+                        alert("\nYou unfortunatley lost the game\n\nThe answer was: " + answer);
+                        break;
                     }
                 }
-                userGuessed.push(userInput);
-                userInput = prompt("\nEnter another letter.\n\nYou have " + maxWrong + " lives left\n\n" + answerLetters.join(" ") + "\n");
-            } else {
-                userGuessed.push(userInput);
-                maxWrong--;
-                userInput = prompt("\nEnter another letter.\n\nYou have " + maxWrong + " lives left\n\n"+ answerLetters.join(" ") + "\n");
             }
         });
     } else {
@@ -100,6 +114,9 @@ function testGuess() {
     }
 }
 
+
+
+//EXTRA STUFF BELOW
 
 //loop with function for userinput after initial one + testing for the input to the answer
 //ERROR when this is run in the foreach above 
@@ -113,6 +130,9 @@ function doesItContain() {
         userGuessed.push(userInput);
         maxWrong--;
         userInput = prompt("\nEnter another letter.\nYou have " + maxWrong + " lives left\n"+ answerLetters.join(" ") + "\n");
+        if(maxWrong === 0) {
+            
+        }
     }
 }
 
