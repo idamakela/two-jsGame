@@ -88,11 +88,11 @@ function testGuess() {
                     }
                 }
                 userGuessed.push(userInput);
-                userInput = prompt("\nEnter another letter.\nYou have " + maxWrong + " lives left\n" + answerLetters.join(" ") + "\n");
+                userInput = prompt("\nEnter another letter.\n\nYou have " + maxWrong + " lives left\n\n" + answerLetters.join(" ") + "\n");
             } else {
                 userGuessed.push(userInput);
                 maxWrong--;
-                userInput = prompt("\nEnter another letter.\nYou have " + maxWrong + " lives left\n"+ answerLetters.join(" ") + "\n");
+                userInput = prompt("\nEnter another letter.\n\nYou have " + maxWrong + " lives left\n\n"+ answerLetters.join(" ") + "\n");
             }
         });
     } else {
