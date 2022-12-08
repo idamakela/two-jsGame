@@ -1,3 +1,5 @@
+//ERROR: case sensitive on user input
+
 let words = [
     "stake",
     "suite",
@@ -48,7 +50,7 @@ function gameFunction() {
             } else {
                 maxWrong--;
             } 
-            
+
         } else {
             alert("Please enter only one letter")
             continue;
