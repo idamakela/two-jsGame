@@ -120,6 +120,7 @@ function testGuess() {
 
 //loop with function for userinput after initial one + testing for the input to the answer
 //ERROR when this is run in the foreach above 
+//ERROR: if one guess is wrong, your correct guesses dosent read as right 
 function doesItContain() {
     if (answer.toLocaleLowerCase().includes(userInput)) {
         answerLetters.push(userInput);
