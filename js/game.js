@@ -1,13 +1,3 @@
-/*
-WORKS
-all wrong guesses
-test pattern
-
-ERROR
-correct guess function
-previous guesses 
-*/
-
 let words = [
     "stake",
     "suite",
@@ -21,45 +11,44 @@ let words = [
     "drown"
 ];
 
-
 let answer = "";
 let answerLetters = [];
 let userInput = "";
 let userGuessed = [];
 const TEST_PATTERN = /^[a-z]{1}$/i;
 
-
 let startGame = document.getElementById("startButton").addEventListener("click", gameFunction);
 
 function gameFunction() {
     randomWord();
     displayGuesses();
-    remainingLetters = answer.length;
-    maxWrong = answer.length + 2;
+    let remainingLetters = answer.length;
+    let maxWrong = answer.length + 2;
     console.log(answer);
 
-    
     while (remainingLetters > 0) {
-        //do i have user input here or at the bottom???
         userInput = prompt("\nEnter a letter.\n\nYou have " + maxWrong + " lives left\n\n" + answerLetters.join(" ") + "\n");
 
-        
-        /*
-        How do i make this run just once??
-        for (let i = 0; i <= 1; i++) {
-            userInput = prompt("\nYou have started the game!\n\nEnter a letter.\n" + answerLetters.join(" ") + "\n");
-        }*/
+        if(userInput == null) {
+            break;
+        }
 
         if(userInput.match(TEST_PATTERN)) {
-            isAnswerArray(answerLetters);
+            isThisArray(answerLetters);
+            guessedBefore(userGuessed);
             userGuessed.push(userInput);
 
             if(answer.toLocaleLowerCase().includes(userInput)) {
-                correctGuess();
+                for( let j = 0; j < answer.length; j++) {
+                    if (answer[j] === userInput) {
+                        answerLetters[j] = userInput;
+                        remainingLetters--;
+                    }
+                }
             } else {
-                incorrectGuess();
-            }
-
+                maxWrong--;
+            } 
+            
         } else {
             alert("Please enter only one letter")
             continue;
@@ -68,12 +57,14 @@ function gameFunction() {
         if(maxWrong === 0) {
             alert("\nYou have lost the game\n\nThe answer was: " + answer);
             break; 
-        }        
-        
-        /*if (userGuessed.toLocaleLowerCase().includes(userInput)) {
-            alert("You have already guessed that letter\nTry again!")
-        }*/
+        }       
     }
+    
+    if(remainingLetters === 0) {
+        alert("\nCongratulations!\n\nYou have won the game!\n\nThe answer was: " + answer);
+    }
+
+    alert("\nThank you for playing!")
 }
 
 
@@ -87,207 +78,18 @@ function displayGuesses() {
     }
 }
 
-function isAnswerArray(targetArray) {
+function isThisArray(targetArray) {
     if(Array.isArray(targetArray)) {
     } else {
         alert("Broken game");
     }
 }
 
+function guessedBefore(targetedArray) {
+    isThisArray(userGuessed);
 
-//named or unnamed function??
-function correctGuess() {
-    answerLetters.forEach(function() {
-        for( let j = 0; j < answer.length; j++) {
-            if (answer[j] === userInput) {
-                answerLetters[j] = userInput;
-                remainingLetters--;
-            }
-        }  
-    });
-}
-
-function testGuess() {
-    for( let j = 0; j < answer.length; j++) {
-        if (answer[j] === userInput) {
-            answerLetters[j] = userInput;
-            remainingLetters--;
-        }
+    if(targetedArray.includes(userInput)) {
+        alert("\nYou have already guessed the letter: " + userInput.toLocaleUpperCase() + "\n\nOpen the console to see all your previous guesses");
+        console.log(userGuessed.join(" "));
     }
 }
-
-function incorrectGuess() {
-    maxWrong--;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//FIRST TRY BELOW
-/*
-//game elements
-1. DONE array of words
-2. DONE random word "function"
-3. DONE emty array for the generated word (aka the answer for the game)
-4. DONE loop for word length, to show the user the guessed letters and their index place
-5. DONE empty array for user guessed letters
-6. DONE variable + logic for how many tries the user has left
-7. DONE variable + logic for remaining letters 
-8. start the game
-9. while loop for when there still are guesses left.
-    a. display tries left
-    b. prompt for user guess input
-    c. test weather user only inputs one letter
-    i. test weather it has already been inputted
-    d. test weather answer does or does not inclued user guess
-10. won message + logic
-11. lost message + logic
-
-
-
-let words = [
-    "stake",
-    "suite",
-    "agile",
-    "guest",
-    "angel",
-    "grave",
-    "spare",
-    "twist",
-    "score",
-    "drown"
-];
-
-let answer = "";
-let answerLetters = [];
-let userInput = "";
-let userGuessed = [];
-const TEST_PATTERN = /^[a-z]{1}$/i;
-
-let startGame = document.getElementById("startButton").addEventListener("click", gameFunction);
-
-function gameFunction() {
-    randomWord();
-    displayGuesses();
-    remainingLetters = answer.length;
-    maxWrong = answer.length + 2;
-    console.log(answer);
-
-    userInput = prompt("\nYou have started the game!\n\nEnter a letter.\n" + answerLetters.join(" ") + "\n");
-    
-    while (remainingLetters > 0) {
-        if (userInput.match(TEST_PATTERN)) {
-            testGuess(answer);
-            if(maxWrong === 0) {
-                alert("\nYou unfortunatley lost the game\n\nThe answer was: " + answer);
-                break;
-            }
-        } else {
-            alert("\nEnter only one letter");
-            break;
-            //this does not work 
-        }
-
-    }
-}
-
-function randomWord() {
-    answer = words[Math.floor(Math.random() * words.length)];
-}
-
-function displayGuesses() {
-    for (let i = 0; i < answer.length; i++) {
-        answerLetters[i] = "_";
-    }
-}
-
-//error: doesnt break correctly after the last letter is inputted, and shows a last prompt 
-//error: need to press enter an extra time after the game is lost
-//error: dosent read letters guessed more than once 
-function testGuess() {
-    if (Array.isArray(answerLetters)) {
-        answerLetters.forEach(function() {
-            if (answer.toLocaleLowerCase().includes(userInput)) {
-                //while(remainingLetters > 0) {
-                    for( let j = 0; j < answer.length; j++) {
-                        if (answer[j] === userInput) {
-                            answerLetters[j] = userInput;
-                            remainingLetters--;
-                            if (remainingLetters === 0) {
-                                alert("\nCongratulations!\n\nYou have won the game!\n\nThe answer was: " + answer);
-                                break;
-                            }
-                        }
-                    }
-                    userGuessed.push(userInput);
-                    userInput = prompt("\nEnter another letter.\n\nYou have " + maxWrong + " lives left\n\n" + answerLetters.join(" ") + "\n");
-                //}
-            } else {
-                while(maxWrong > 0) {
-                    userGuessed.push(userInput);
-                    maxWrong--;
-                    userInput = prompt("\nEnter another letter.\n\nYou have " + maxWrong + " lives left\n\n"+ answerLetters.join(" ") + "\n");
-                    if (maxWrong === 0) {
-                        alert("\nYou unfortunatley lost the game\n\nThe answer was: " + answer);
-                        break;
-                    }
-                }
-            }
-        });
-    } else {
-        alert("Broken game");
-    }
-}
-
-
-
-//EXTRA STUFF BELOW
-
-//loop with function for userinput after initial one + testing for the input to the answer
-//ERROR when this is run in the foreach above 
-//ERROR: if one guess is wrong, your correct guesses dosent read as right 
-function doesItContain() {
-    if (answer.toLocaleLowerCase().includes(userInput)) {
-        answerLetters.push(userInput);
-        userGuessed.push(userInput);
-        remainingLetters--;
-        userInput = prompt("\nEnter another letter.\nYou have " + maxWrong + " lives left\n" + answerLetters.join(" ") + "\n");
-    } else {
-        userGuessed.push(userInput);
-        maxWrong--;
-        userInput = prompt("\nEnter another letter.\nYou have " + maxWrong + " lives left\n"+ answerLetters.join(" ") + "\n");
-        if(maxWrong === 0) {
-            
-        }
-    }
-}
-
-function guessesLeft() {
-    if (userGuessed >= maxWrong) {
-        alert("You have lost the game")
-    } else {
-        
-    }
-} 
-*/
