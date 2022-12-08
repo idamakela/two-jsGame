@@ -1,8 +1,3 @@
-//ERROR: can win by entering wrong letters and some right ones (??)
-//ERROR: guessed letters array saves letters from previous game
-//ERROR: when guessing right letter after another, you get winning message after five inputs
-//ERROR: max wrong should not be affected when entering wrong guess
-
 let words = [
     "stake",
     "suite",
@@ -11,7 +6,7 @@ let words = [
     "angel",
     "grave",
     "spare",
-    "twist",
+    "game",
     "score",
     "drown"
 ];
@@ -41,21 +36,32 @@ function gameFunction() {
         if(userInput.match(TEST_PATTERN)) {
             isThisArray(answerLetters);
             guessedBefore(userGuessed);
-            userGuessed.push(userInput);
 
             if(answer.toLocaleLowerCase().includes(userInput)) {
-                for( let j = 0; j < answer.length; j++) {
+                for(let j = 0; j < answer.length; j++) {
+
                     if (answer[j] === userInput) {
                         answerLetters[j] = userInput;
-                        remainingLetters--;
                     }
                 }
+
+                if(!userGuessed.includes(userInput)) {
+                    remainingLetters--;
+                }
+
             } else {
                 maxWrong--;
-            } 
+
+                if(userGuessed.includes(userInput)) {
+                    maxWrong++;
+                }
+            }
+
+            userGuessed.push(userInput);
+
 
         } else {
-            alert("Please enter only one lower case letter")
+            alert("Please enter only one lowercase letter")
             continue;
         }
 
@@ -70,6 +76,7 @@ function gameFunction() {
     }
 
     alert("\nThank you for playing!")
+    clearArray(userGuessed);
 }
 
 
@@ -90,11 +97,17 @@ function isThisArray(targetArray) {
     }
 }
 
-function guessedBefore(targetedArray) {
+function guessedBefore(targetArray) {
     isThisArray(userGuessed);
 
-    if(targetedArray.includes(userInput)) {
+    if(targetArray.includes(userInput)) {
         alert("\nYou have already guessed the letter: " + userInput.toLocaleUpperCase() + "\n\nOpen the console to see all your previous guesses");
         console.log(userGuessed.join(" "));
+    }
+}
+
+function clearArray(targetArray) {
+    while(targetArray.length > 0) {
+        targetArray.pop();
     }
 }
