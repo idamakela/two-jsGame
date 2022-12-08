@@ -46,32 +46,13 @@ function gameFunction() {
     displayGuesses();
     remainingLetters = answer.length;
     maxWrong = answer.length + 2;
+
     console.log(answer);
 
     userInput = prompt("\nYou have started the game!\n\nEnter a letter.\n" + answerLetters.join(" ") + "\n");
     
-    //error: only first prompt is tested against the pattern
     while (remainingLetters > 0) {
-        while(userInput.match(TEST_PATTERN)) {
-            testGuess(answer);
-            if(maxWrong === 0) {
-                alert("\nYou unfortunatley lost the game\n\nThe answer was: " + answer);
-                break;
-            }
-        }
-        /*
-        if (userInput.match(TEST_PATTERN)) {
-            testGuess(answer);
-            if(maxWrong === 0) {
-                alert("\nYou unfortunatley lost the game\n\nThe answer was: " + answer);
-                break;
-            }
-        } else {
-            alert("\nEnter only one letter");
-            break;
-            //this does not work 
-        }*/
-
+        testGuess(answer);        
     }
 }
 
@@ -85,6 +66,74 @@ function displayGuesses() {
     }
 }
 
+function testGuess() {
+    if (Array.isArray(answerLetters)) {
+        answerLetters.forEach(doesItContain);
+
+        answerLetters.forEach(function() {
+            if(userInput.match(TEST_PATTERN)) {
+                doesItContain();
+                userInput = prompt("\nEnter another letter.\n\nYou have " + maxWrong + " lives left\n\n" + answerLetters.join(" ") + "\n");
+            } else {
+                alert("Please enter only one letter");
+            }
+        });
+
+    } else {
+        alert("Broken game");
+        remainingLetters = 0; //to break the loop if the game is broken
+    }
+}
+
+
+//does NOT work
+function doesItContain() {
+    if (answer.toLocaleLowerCase().includes(userInput)) {
+
+        for(let j = 0; j < answer.length; j++) { //to iterate through the answer and check if (see statement below) it contains the user input
+
+            if (answer[j] === userInput) {
+
+                answerLetters[j] = userInput;
+                remainingLetters--;
+                userGuessed.push(userInput);
+                console.log(userGuessed);
+            }
+
+        }
+
+        if (remainingLetters === 0) {
+            alert("\nCongratulations!\n\nYou have won the game!\n\nThe answer was: " + answer);
+        }
+    
+    } else {
+
+        while(maxWrong > 0) {
+
+            userGuessed.push(userInput);
+            maxWrong--;
+
+            if (maxWrong === 0) {
+                alert("\nYou unfortunatley lost the game\n\nThe answer was: " + answer);
+                break;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+//for cancel button handling
+/*
+if(userInput == null) {
+    break;
+}
+*/
+
+/*
 //error: doesnt break correctly after the last letter is inputted, and shows a last prompt 
 //error: need to press enter an extra time after the game is lost
 //error: dosent read letters guessed more than once 
@@ -151,44 +200,4 @@ function guessesLeft() {
         
     }
 }
-
-
-//trying to fix the code for readibility
-function testGuess() {
-    if (Array.isArray(answerLetters)) {
-        answerLetters.forEach(doesItContainB);
-    } else {
-        alert("Broken game");
-    }
-}
-
-
-
-function doesItContainB() {
-    if (answer.toLocaleLowerCase().includes(userInput)) {
-        for(let j = 0; j < answer.length; j++) {
-            if (answer[j] === userInput) {
-                answerLetters[j] = userInput;
-                remainingLetters--;
-                if (remainingLetters === 0) {
-                    alert("\nCongratulations!\n\nYou have won the game!\n\nThe answer was: " + answer);
-                    break;
-                }
-            }
-        }
-        userGuessed.push(userInput);
-        userInput = prompt("\nEnter another letter.\n\nYou have " + maxWrong + " lives left\n\n" + answerLetters.join(" ") + "\n");
-    
-    } else {
-        while(maxWrong > 0) {
-            userGuessed.push(userInput);
-            maxWrong--;
-            userInput = prompt("\nEnter another letter.\n\nYou have " + maxWrong + " lives left\n\n"+ answerLetters.join(" ") + "\n");
-            if (maxWrong === 0) {
-                alert("\nYou unfortunatley lost the game\n\nThe answer was: " + answer);
-                break;
-            }
-        }
-    }
-}
-
+*/
