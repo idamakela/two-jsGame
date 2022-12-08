@@ -1,4 +1,7 @@
-//ERROR: case sensitive on user input
+//ERROR: can win by entering wrong letters and some right ones (??)
+//ERROR: guessed letters array saves letters from previous game
+//ERROR: when guessing right letter after another, you get winning message after five inputs
+//ERROR: max wrong should not be affected when entering wrong guess
 
 let words = [
     "stake",
@@ -17,7 +20,7 @@ let answer = "";
 let answerLetters = [];
 let userInput = "";
 let userGuessed = [];
-const TEST_PATTERN = /^[a-z]{1}$/i;
+const TEST_PATTERN = /^[a-z]{1}$/;
 
 let startGame = document.getElementById("startButton").addEventListener("click", gameFunction);
 
@@ -52,7 +55,7 @@ function gameFunction() {
             } 
 
         } else {
-            alert("Please enter only one letter")
+            alert("Please enter only one lower case letter")
             continue;
         }
 
