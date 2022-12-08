@@ -1,5 +1,152 @@
-//game elements
 /*
+WORKS
+all wrong guesses
+test pattern
+
+ERROR
+correct guess function
+previous guesses 
+*/
+
+let words = [
+    "stake",
+    "suite",
+    "agile",
+    "guest",
+    "angel",
+    "grave",
+    "spare",
+    "twist",
+    "score",
+    "drown"
+];
+
+
+let answer = "";
+let answerLetters = [];
+let userInput = "";
+let userGuessed = [];
+const TEST_PATTERN = /^[a-z]{1}$/i;
+
+
+let startGame = document.getElementById("startButton").addEventListener("click", gameFunction);
+
+function gameFunction() {
+    randomWord();
+    displayGuesses();
+    remainingLetters = answer.length;
+    maxWrong = answer.length + 2;
+    console.log(answer);
+
+    
+    while (remainingLetters > 0) {
+        //do i have user input here or at the bottom???
+        userInput = prompt("\nEnter a letter.\n\nYou have " + maxWrong + " lives left\n\n" + answerLetters.join(" ") + "\n");
+
+        
+        /*
+        How do i make this run just once??
+        for (let i = 0; i <= 1; i++) {
+            userInput = prompt("\nYou have started the game!\n\nEnter a letter.\n" + answerLetters.join(" ") + "\n");
+        }*/
+
+        if(userInput.match(TEST_PATTERN)) {
+            isAnswerArray(answerLetters);
+            userGuessed.push(userInput);
+
+            if(answer.toLocaleLowerCase().includes(userInput)) {
+                correctGuess();
+            } else {
+                incorrectGuess();
+            }
+
+        } else {
+            alert("Please enter only one letter")
+            continue;
+        }
+
+        if(maxWrong === 0) {
+            alert("\nYou have lost the game\n\nThe answer was: " + answer);
+            break; 
+        }        
+        
+        /*if (userGuessed.toLocaleLowerCase().includes(userInput)) {
+            alert("You have already guessed that letter\nTry again!")
+        }*/
+    }
+}
+
+
+function randomWord() {
+    answer = words[Math.floor(Math.random() * words.length)];
+}
+
+function displayGuesses() {
+    for (let i = 0; i < answer.length; i++) {
+        answerLetters[i] = "_";
+    }
+}
+
+function isAnswerArray(targetArray) {
+    if(Array.isArray(targetArray)) {
+    } else {
+        alert("Broken game");
+    }
+}
+
+
+//named or unnamed function??
+function correctGuess() {
+    answerLetters.forEach(function() {
+        for( let j = 0; j < answer.length; j++) {
+            if (answer[j] === userInput) {
+                answerLetters[j] = userInput;
+                remainingLetters--;
+            }
+        }  
+    });
+}
+
+function testGuess() {
+    for( let j = 0; j < answer.length; j++) {
+        if (answer[j] === userInput) {
+            answerLetters[j] = userInput;
+            remainingLetters--;
+        }
+    }
+}
+
+function incorrectGuess() {
+    maxWrong--;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//FIRST TRY BELOW
+/*
+//game elements
 1. DONE array of words
 2. DONE random word "function"
 3. DONE emty array for the generated word (aka the answer for the game)
@@ -11,13 +158,12 @@
 9. while loop for when there still are guesses left.
     a. display tries left
     b. prompt for user guess input
-        i. test weather it has already been inputted
     c. test weather user only inputs one letter
+    i. test weather it has already been inputted
     d. test weather answer does or does not inclued user guess
 10. won message + logic
 11. lost message + logic
 
-*/
 
 
 let words = [
@@ -143,4 +289,5 @@ function guessesLeft() {
     } else {
         
     }
-}
+} 
+*/
