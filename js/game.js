@@ -7,7 +7,7 @@
 5. DONE empty array for user guessed letters
 6. DONE variable + logic for how many tries the user has left
 7. DONE variable + logic for remaining letters 
-8. start the game
+8. DONE start the game
 9. while loop for when there still are guesses left.
     a. display tries left
     b. prompt for user guess input
@@ -50,7 +50,16 @@ function gameFunction() {
 
     userInput = prompt("\nYou have started the game!\n\nEnter a letter.\n" + answerLetters.join(" ") + "\n");
     
+    //error: only first prompt is tested against the pattern
     while (remainingLetters > 0) {
+        while(userInput.match(TEST_PATTERN)) {
+            testGuess(answer);
+            if(maxWrong === 0) {
+                alert("\nYou unfortunatley lost the game\n\nThe answer was: " + answer);
+                break;
+            }
+        }
+        /*
         if (userInput.match(TEST_PATTERN)) {
             testGuess(answer);
             if(maxWrong === 0) {
@@ -61,7 +70,7 @@ function gameFunction() {
             alert("\nEnter only one letter");
             break;
             //this does not work 
-        }
+        }*/
 
     }
 }
@@ -83,20 +92,18 @@ function testGuess() {
     if (Array.isArray(answerLetters)) {
         answerLetters.forEach(function() {
             if (answer.toLocaleLowerCase().includes(userInput)) {
-                //while(remainingLetters > 0) {
-                    for( let j = 0; j < answer.length; j++) {
-                        if (answer[j] === userInput) {
-                            answerLetters[j] = userInput;
-                            remainingLetters--;
-                            if (remainingLetters === 0) {
-                                alert("\nCongratulations!\n\nYou have won the game!\n\nThe answer was: " + answer);
-                                break;
-                            }
+                for( let j = 0; j < answer.length; j++) {
+                    if (answer[j] === userInput) {
+                        answerLetters[j] = userInput;
+                        remainingLetters--;
+                        if (remainingLetters === 0) {
+                            alert("\nCongratulations!\n\nYou have won the game!\n\nThe answer was: " + answer);
+                            break;
                         }
                     }
+                }
                     userGuessed.push(userInput);
                     userInput = prompt("\nEnter another letter.\n\nYou have " + maxWrong + " lives left\n\n" + answerLetters.join(" ") + "\n");
-                //}
             } else {
                 while(maxWrong > 0) {
                     userGuessed.push(userInput);
@@ -136,6 +143,7 @@ function doesItContain() {
     }
 }
 
+//NOT USED 
 function guessesLeft() {
     if (userGuessed >= maxWrong) {
         alert("You have lost the game")
@@ -143,3 +151,44 @@ function guessesLeft() {
         
     }
 }
+
+
+//trying to fix the code for readibility
+function testGuess() {
+    if (Array.isArray(answerLetters)) {
+        answerLetters.forEach(doesItContainB);
+    } else {
+        alert("Broken game");
+    }
+}
+
+
+
+function doesItContainB() {
+    if (answer.toLocaleLowerCase().includes(userInput)) {
+        for(let j = 0; j < answer.length; j++) {
+            if (answer[j] === userInput) {
+                answerLetters[j] = userInput;
+                remainingLetters--;
+                if (remainingLetters === 0) {
+                    alert("\nCongratulations!\n\nYou have won the game!\n\nThe answer was: " + answer);
+                    break;
+                }
+            }
+        }
+        userGuessed.push(userInput);
+        userInput = prompt("\nEnter another letter.\n\nYou have " + maxWrong + " lives left\n\n" + answerLetters.join(" ") + "\n");
+    
+    } else {
+        while(maxWrong > 0) {
+            userGuessed.push(userInput);
+            maxWrong--;
+            userInput = prompt("\nEnter another letter.\n\nYou have " + maxWrong + " lives left\n\n"+ answerLetters.join(" ") + "\n");
+            if (maxWrong === 0) {
+                alert("\nYou unfortunatley lost the game\n\nThe answer was: " + answer);
+                break;
+            }
+        }
+    }
+}
+
