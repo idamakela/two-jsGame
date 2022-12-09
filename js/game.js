@@ -24,7 +24,6 @@ function gameFunction() {
     displayGuesses();
     let remainingLetters = answer.length;
     let maxWrong = answer.length + 2;
-    console.log(answer);
 
     while (remainingLetters > 0) {
         userInput = prompt("\nEnter a letter.\n\nYou have " + maxWrong + " lives left\n\n" + answerLetters.join(" ") + "\n");
@@ -50,10 +49,8 @@ function gameFunction() {
                 }
 
             } else {
-                maxWrong--;
-
-                if(userGuessed.includes(userInput)) {
-                    maxWrong++;
+                if(!userGuessed.includes(userInput)) {
+                    maxWrong--;
                 }
             }
 
