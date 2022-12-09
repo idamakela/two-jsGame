@@ -59,7 +59,6 @@ function gameFunction() {
 
             userGuessed.push(userInput);
 
-
         } else {
             alert("Please enter only one lowercase letter")
             continue;
@@ -78,7 +77,6 @@ function gameFunction() {
     alert("\nThank you for playing!")
     clearArray(userGuessed);
 }
-
 
 function randomWord() {
     answer = words[Math.floor(Math.random() * words.length)];
