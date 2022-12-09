@@ -57,21 +57,27 @@ function gameFunction() {
             userGuessed.push(userInput);
 
         } else {
-            alert("Please enter only one lowercase letter")
+            alert("Please enter only one lowercase letter");
             continue;
         }
 
         if(maxWrong === 0) {
-            alert("\nYou have lost the game\n\nThe answer was: " + answer);
+            alert(
+                "\nYou have lost the game\n\nThe answer was: " 
+                + answer.toLocaleUpperCase()
+                );
             break; 
         }       
     }
     
     if(remainingLetters === 0) {
-        alert("\nCongratulations!\n\nYou have won the game!\n\nThe answer was: " + answer);
+        alert(
+            "\nCongratulations!\n\nYou have won the game!\n\nThe answer was: " 
+            + answer.toLocaleUpperCase()
+            );
     }
 
-    alert("\nThank you for playing!")
+    alert("\nThank you for playing!");
     clearArray(userGuessed);
 }
 
@@ -96,7 +102,11 @@ function guessedBefore(targetArray) {
     isThisArray(userGuessed);
 
     if(targetArray.includes(userInput)) {
-        alert("\nYou have already guessed the letter: " + userInput.toLocaleUpperCase() + "\n\nOpen the console to see all your previous guesses");
+        alert(
+            "\nYou have already guessed the letter: " 
+            + userInput.toLocaleUpperCase() 
+            + "\n\nTry something else!\n\nOpen the console to see all your previous guesses."
+            );
         console.log(userGuessed.join(" "));
     }
 }
