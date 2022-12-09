@@ -16,6 +16,7 @@ let answerLetters = [];
 let userInput = "";
 let userGuessed = [];
 const TEST_PATTERN = /^[a-z]{1}$/;
+let userStatus = "";
 
 let startGame = document.getElementById("startButton").addEventListener("click", gameFunction);
 
@@ -66,6 +67,7 @@ function gameFunction() {
                 "\nYou have lost the game\n\nThe answer was: " 
                 + answer.toLocaleUpperCase()
                 );
+            userStatus = "lost";
             break; 
         }       
     }
@@ -75,10 +77,12 @@ function gameFunction() {
             "\nCongratulations!\n\nYou have won the game!\n\nThe answer was: " 
             + answer.toLocaleUpperCase()
             );
+        userStatus = "won";
     }
 
     alert("\nThank you for playing!");
     clearArray(userGuessed);
+    console.log("The answer was " + answer.toLocaleUpperCase() + " and the user " + userStatus.toLocaleUpperCase() + " this round.");
 }
 
 function randomWord() {
