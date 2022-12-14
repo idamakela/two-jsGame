@@ -29,28 +29,28 @@ function gameFunction() {
     while (remainingLetters > 0) {
         userInput = prompt("\nEnter a letter.\n\nYou have " + maxWrong + " lives left\n\n" + answerLetters.join(" ") + "\n");
 
-        if(userInput == null) {
+        if (userInput == null) {
             break;
         }
 
-        if(userInput.match(TEST_PATTERN)) {
+        if (userInput.match(TEST_PATTERN)) {
             isThisArray(answerLetters);
             guessedBefore(userGuessed);
 
-            if(answer.toLocaleLowerCase().includes(userInput)) {
-                for(let j = 0; j < answer.length; j++) {
+            if (answer.toLocaleLowerCase().includes(userInput)) {
+                for (let j = 0; j < answer.length; j++) {
 
                     if (answer[j] === userInput) {
                         answerLetters[j] = userInput;
                     }
                 }
 
-                if(!userGuessed.includes(userInput)) {
+                if (!userGuessed.includes(userInput)) {
                     remainingLetters--;
                 }
 
             } else {
-                if(!userGuessed.includes(userInput)) {
+                if (!userGuessed.includes(userInput)) {
                     maxWrong--;
                 }
             }
@@ -62,7 +62,7 @@ function gameFunction() {
             continue;
         }
 
-        if(maxWrong === 0) {
+        if (maxWrong === 0) {
             alert(
                 "\nYou have lost the game\n\nThe answer was: " 
                 + answer.toLocaleUpperCase()
@@ -72,7 +72,7 @@ function gameFunction() {
         }       
     }
     
-    if(remainingLetters === 0) {
+    if (remainingLetters === 0) {
         alert(
             "\nCongratulations!\n\nYou have won the game!\n\nThe answer was: " 
             + answer.toLocaleUpperCase()
@@ -96,7 +96,7 @@ function displayGuesses() {
 }
 
 function isThisArray(targetArray) {
-    if(Array.isArray(targetArray)) {
+    if (Array.isArray(targetArray)) {
     } else {
         alert("Broken game");
     }
@@ -105,7 +105,7 @@ function isThisArray(targetArray) {
 function guessedBefore(targetArray) {
     isThisArray(userGuessed);
 
-    if(targetArray.includes(userInput)) {
+    if (targetArray.includes(userInput)) {
         alert(
             "\nYou have already guessed the letter: " 
             + userInput.toLocaleUpperCase() 
@@ -116,7 +116,7 @@ function guessedBefore(targetArray) {
 }
 
 function clearArray(targetArray) {
-    while(targetArray.length > 0) {
+    while (targetArray.length > 0) {
         targetArray.pop();
     }
 }
