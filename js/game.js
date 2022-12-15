@@ -1,3 +1,5 @@
+//ERROR: no output when the user cancelled the game (won/lost)
+
 let words = [
     "stake",
     "suite",
@@ -21,7 +23,8 @@ let userStatus = "";
 let startGame = document.getElementById("startButton").addEventListener("click", gameFunction);
 
 function gameFunction() {
-    randomWord();
+    let answer = randomWord(words);
+    console.log(answer);
     displayGuesses();
     let remainingLetters = answer.length;
     let maxWrong = answer.length + 2;
@@ -85,8 +88,8 @@ function gameFunction() {
     console.log("The answer was " + answer.toLocaleUpperCase() + " and the user " + userStatus.toLocaleUpperCase() + " this round.");
 }
 
-function randomWord() {
-    answer = words[Math.floor(Math.random() * words.length)];
+function randomWord(targetArray) {
+    return targetArray[Math.floor(Math.random() * targetArray.length)];
 }
 
 function displayGuesses() {
