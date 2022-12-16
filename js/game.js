@@ -1,5 +1,3 @@
-//ERROR: no output when the user cancelled the game (won/lost)
-
 let words = [
     "stake",
     "suite",
@@ -24,7 +22,6 @@ let startGame = document.getElementById("startButton").addEventListener("click",
 
 function gameFunction() {
     let answer = randomWord(words);
-    console.log(answer);
     displayGuesses();
     let remainingLetters = answer.length;
     let maxWrong = answer.length + 2;
@@ -33,6 +30,7 @@ function gameFunction() {
         userInput = prompt("\nEnter a letter.\n\nYou have " + maxWrong + " lives left\n\n" + answerLetters.join(" ") + "\n");
 
         if (userInput == null) {
+            userStatus = "cancelled";
             break;
         }
 
